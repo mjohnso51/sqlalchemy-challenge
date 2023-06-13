@@ -106,27 +106,27 @@ def tobs():
 def temps(start=None, end=None):
     sel = [func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)]
     
-    # Check if there is an end date then do the task accordingly
+    #Check if there is an end date then do the task accordingly
     if end == None: 
         start_data = session.query(func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)).\
                             filter(measurement.date >= start).all()
         
-        # Convert list of tuples into normal list
+        #Convert list of tuples into normal list
         start_list = list(np.ravel(start_data))
 
-        # Return a list of jsonified minimum, average and maximum temperatures for a specific start date
+        #Return JSON list of min, avg and max temperatures for a specific start-end date range
         return jsonify(start_list)
     
     else:
-        # Query the data from start date to the end date
+        #Query the data from start date to the end date
         start_end_data = session.query(func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)).\
                             filter(measurement.date >= start).\
                             filter(measurement.date <= end).all()
         
-        # Convert list of tuples into normal list
+        #Convert list of tuples into normal list
         start_end_list = list(np.ravel(start_end_data))
 
-        # Return a list of jsonified minimum, average and maximum temperatures for a specific start-end date range
+        #Return JSON list of min, avg and max temperatures for a specific start-end date range
         return jsonify(start_end_list)
 
 session.close()
